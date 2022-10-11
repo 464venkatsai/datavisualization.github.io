@@ -1,60 +1,66 @@
-// import './App.css';
+import './App.css';
 import React from 'react';
 import Navbar from "./components/Navbar";
-import TextForm from './components/TextForm';
-import Alerts from './components/Alerts';
+import Home from './components/Home';
 import About from './components/About';
 import { useState } from 'react';
-import {
-  BrowserRouter as Router,
-  Switch,
-  Route,
-} from "react-router-dom";
+import LoadingBar from 'react-top-loading-bar'
+import {  BrowserRouter as Router,  Switch,  Route} from "react-router-dom";
+import Blog from './components/Blog';
+// import Assiatant from './components/Assiatant';
+import Todo3 from './components/Todo3';
 function App() {
-  const [mode,Setmode] =useState("light")
-  const Clicked = ()=>{
-    if (mode==="dark"){
-      Setmode("light")
-      document.body.style.backgroundColor="white"
-      ShowAlert("Light Mode Enabled","success")
-      
-    }
+  const [state,Setstate] =useState(0)
+  const Clicked = async()=>{
+      if (state===0){
+        setTimeout(async() => {
+        }, 200);
+        Setstate(100)
+        // this.Setstate(100)
+      }
+      if(state===100) {
+        setTimeout(async() => {
+        }, 200);
+        setingState(99)
+      }
     else{
-      ShowAlert("Dark Mode Enabled","success")
-      Setmode("dark")
-      document.body.style.backgroundColor="rgb(15, 2, 92)"
+      setTimeout(async() => {
+      }, 200);
+      setingState(100)
+      // Setstate(100)
+      }
+      Clicked()
     }
-  }
-  const [alerts,SetAlert]=useState(null);
-  const ShowAlert = (message,type)=>{
-    SetAlert({
-      msg : message,
-      type : type
-    })
-    setTimeout(() => {
-      SetAlert(null);
-    }, 1200);
-  }
+    const setingState = async(num)=>{
+    Setstate(num)
+   }
+
     return (
     <>
+    <LoadingBar
+         height={3}
+        color='#f11946'
+        progress={state}
+      />
 <Router>
-<Navbar title="Text Editor" about="About Us" DarkMode={Clicked}  mode={`${mode}`} />
-<Alerts alert={alerts}/>
-<Switch>
-          <Route exact path="/about">
-            <div className="container mt-5">
-            <About mode={`${mode}`}/>
-            </div>
+      <Navbar click={Clicked} />
+        <Switch>
+          <Route exact path="/about" >
+            <About/>
           </Route>
-          <Route exact path="/">
-<TextForm heading="Enter Your Text To Analyze" mode={`${mode}`} ShowAlert={ShowAlert}/>
+          <Route exact path="/texteditors"  >
+              <Home/>
+          </Route>
+          <Route exact path="/blog" >
+              <Blog/>
+          </Route>
+          <Route exact path="/assistant" >
+              <Todo3 />
           </Route>
         </Switch>
 </Router>
-    </>
-
+</>
   );
 
 } 
 export default App;
-
